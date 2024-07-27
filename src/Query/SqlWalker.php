@@ -225,15 +225,15 @@ class SqlWalker
     {
         return match (true) {
             $statement instanceof AST\SelectStatement
-                => new Exec\SingleSelectExecutor($statement, $this),
+                => new Exec\SingleStatementExecutor($statement, $this),
             $statement instanceof AST\UpdateStatement
                 => $this->em->getClassMetadata($statement->updateClause->abstractSchemaName)->isInheritanceTypeJoined()
                     ? new Exec\MultiTableUpdateExecutor($statement, $this)
-                    : new Exec\SingleTableDeleteUpdateExecutor($statement, $this),
+                    : new Exec\SingleStatementExecutor($statement, $this),
             $statement instanceof AST\DeleteStatement
                 => $this->em->getClassMetadata($statement->deleteClause->abstractSchemaName)->isInheritanceTypeJoined()
                     ? new Exec\MultiTableDeleteExecutor($statement, $this)
-                    : new Exec\SingleTableDeleteUpdateExecutor($statement, $this),
+                    : new Exec\SingleStatementExecutor($statement, $this),
         };
     }
 
@@ -489,6 +489,16 @@ class SqlWalker
         }
 
         $sql = $this->platform->modifyLimitQuery($sql, $limit, $offset);
+
+        if ($limit) {
+            $this->parserResult->addParameterMapping('__doctrine_query_limit__', $this->sqlParamIndex++);
+            $this->query->getParameters()->add(new Parameter('__doctrine_query_limit__', $limit));
+        }
+
+        if ($offset) {
+            $this->parserResult->addParameterMapping('__doctrine_query_offset__', $this->sqlParamIndex++);
+            $this->query->getParameters()->add(new Parameter('__doctrine_query_offset__', $offset));
+        }
 
         if ($lockMode === LockMode::NONE) {
             return $sql;

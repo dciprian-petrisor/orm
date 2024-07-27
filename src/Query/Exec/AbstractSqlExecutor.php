@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace Doctrine\ORM\Query\Exec;
 
-use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Result;
-use Doctrine\DBAL\Types\Type;
 
 /**
  * Base class for SQL statement executors.

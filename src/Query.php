@@ -660,7 +660,6 @@ class Query extends AbstractQuery
             $this->getDQL() . serialize($this->hints) .
             '&platform=' . get_debug_type($this->getEntityManager()->getConnection()->getDatabasePlatform()) .
             ($this->em->hasFilters() ? $this->em->getFilters()->getHash() : '') .
-            '&firstResult=' . $this->firstResult . '&maxResult=' . $this->maxResults .
             '&hydrationMode=' . $this->hydrationMode . '&types=' . serialize($this->parsedTypes) . 'DOCTRINE_QUERY_CACHE_SALT',
         );
     }
