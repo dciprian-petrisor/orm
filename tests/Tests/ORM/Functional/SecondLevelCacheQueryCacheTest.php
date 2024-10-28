@@ -446,7 +446,7 @@ class SecondLevelCacheQueryCacheTest extends SecondLevelCacheFunctionalTestCase
         self::assertCount(2, $result2);
 
         self::assertEquals(5, $this->secondLevelCacheLogger->getPutCount());
-        self::assertEquals(3, $this->secondLevelCacheLogger->getMissCount());
+        self::assertEquals(2, $this->secondLevelCacheLogger->getMissCount());
         self::assertEquals(2, $this->secondLevelCacheLogger->getRegionPutCount($this->getDefaultQueryRegionName()));
         self::assertEquals(2, $this->secondLevelCacheLogger->getRegionMissCount($this->getDefaultQueryRegionName()));
 
